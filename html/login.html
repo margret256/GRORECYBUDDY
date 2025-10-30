@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login — My Grocery Buddy</title>
+ <link rel="stylesheet" href="/public/css/style.css">
+</head>
+
+<body>
+     <!-- Login Page -->
+  <div id="loginPage" class="center">
+    <div class="card">
+      <h2>🛒 Grocery List</h2>
+      <input type="text" id="loginUsername" placeholder="Username" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button id="loginBtn">Login</button>
+      <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
+    </div>
+  </div>
+    <!-- <script src="/js/auth.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const body = Object.fromEntries(new FormData(e.target).entries());
+            const res = await fetch('/api/auth/login', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            const msg = document.getElementById('msg');
+            if (!res.ok) { msg.textContent = data.message || 'Login failed'; return; }
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            window.location.href = '/grocery.html';
+        });
+    </script> -->
+</body>
+
+</html>

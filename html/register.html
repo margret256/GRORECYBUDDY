@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register — My Grocery Buddy</title>
+   <link rel="stylesheet" href="/public/css/style.css">
+</head>
+
+<body>
+       <!-- Register Page -->
+  <div id="registerPage" class="center hidden">
+    <div class="card">
+      <h2>Create Account</h2>
+      <input type="text" id="regUsername" placeholder="Username" required>
+      <input type="password" id="regPassword" placeholder="Password" required>
+      <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required>
+      <button id="registerBtn">Register</button>
+      <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+    </div>
+  </div>
+
+    <!-- <script src="/js/auth.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = Object.fromEntries(new FormData(e.target).entries());
+            const res = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(form)
+            });
+            const data = await res.json();
+            const msg = document.getElementById('msg');
+            if (!res.ok) { msg.textContent = data.message || 'Error'; return; }
+            // Save token & user in localStorage
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            window.location.href = '/grocery.html';
+        });
+    </script> -->
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link rel="stylesheet" href="/public/css/style.css">
+</head>
+
+<body>
+    <h3>Filters</h3>
+    <button class="filter" data-filter="all">All Items</button>
+    <button class="filter" data-filter="active">Active</button>
+    <button class="filter" data-filter="completed">Completed</button>
+    <hr />
+    <h3>Bulk Actions</h3>
+    <button id="clearCompleted">Clear Completed</button>
+    <button id="clearAll">Clear All</button>
+    <hr />
+    <div class="stats">
+        <p>Total: <span id="statTotal">0</span></p>
+        <p>Completed: <span id="statCompleted">0</span></p>
+        <p>Remaining: <span id="statRemaining">0</span></p>
+    </div>
+    </aside>
+
+
+    <main class="main">
+        <form id="addForm" class="add-form">
+            <input name="name" placeholder="Item name" required />
+            <input name="quantity" type="number" min="1" value="1" />
+            <select name="category">
+                <option>Produce</option>
+                <option>Dairy</option>
+                <option>Meat</option>
+                <option>Bakery</option>
+                <option>Pantry</option>
+                <option>Frozen</option>
+                <option>Beverages</option>
+                <option>Snacks</option>
+                <option>Other</option>
+            </select>
+            <button>Add</button>
+        </form>
+
+
+        <div id="itemsList"></div>
+    </main>
+    </section>
+
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

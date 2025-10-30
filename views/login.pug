@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    title Login — My Grocery Buddy
+    link(rel='stylesheet' href='/css/style.css')
+  body
+    // Login Page
+    form#loginPage.center(method='POST' action='/api/auth/login')
+      .card
+        h2 🛒 Grocery List
+        input#loginUsername(type='text' name='username' placeholder='Username or Email' required)
+        input#loginPassword(type='password' name='password' placeholder='Password' required)
+        button#loginBtn(type='submit') Login
+        p
+          | Don’t have an account?
+          a#showRegister(href='/register') Register
