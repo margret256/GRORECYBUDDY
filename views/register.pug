@@ -6,9 +6,8 @@ html
     title Register — My Grocery Buddy
     link(rel='stylesheet' href='/css/style.css')
   body
-    // Register Page
-    form#registerPage.center(method='POST' action='/api/auth/register')
-      .card
+    .auth-container
+      form#registerPage(method='POST' action='/api/auth/register')
         h2 Create Account
         input#regUsername(type='text' name='username' placeholder='Username' required)
         input#regEmail(type='email' name='email' placeholder='Email' required)
@@ -17,4 +16,4 @@ html
         button#registerBtn(type='submit') Register
         p
           | Already have an account?
-          a#showLogin(href='/login') Login
+          a(href='/login') Login

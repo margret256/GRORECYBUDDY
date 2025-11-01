@@ -6,13 +6,12 @@ html
     title Login — My Grocery Buddy
     link(rel='stylesheet' href='/css/style.css')
   body
-    // Login Page
-    form#loginPage.center(method='POST' action='/api/auth/login')
-      .card
+    .auth-container
+      form#loginPage(method='POST' action='/api/auth/login')
         h2 🛒 Grocery List
         input#loginUsername(type='text' name='username' placeholder='Username or Email' required)
         input#loginPassword(type='password' name='password' placeholder='Password' required)
         button#loginBtn(type='submit') Login
         p
           | Don’t have an account?
-          a#showRegister(href='/register') Register
+          a(href='/register') Register

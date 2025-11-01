@@ -30,8 +30,16 @@ router.get('/', isAuthenticated, async (req, res) => {
     if (filter === 'completed') query.completed = true;
     else if (filter === 'active') query.completed = false;
 
-    const groceries = await Grocery.find(query).sort({ createdAt: -1 });
-    res.json(groceries);
+    const groceries = await Grocery.find(query).sort({ createdAt: -1 }).lean();
+
+    // Ensure numeric values for frontend calculations
+    const fixedGroceries = groceries.map(g => ({
+      ...g,
+      price: Number(g.price),
+      quantity: Number(g.quantity)
+    }));
+
+    res.json(fixedGroceries);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch groceries', error });
   }
@@ -58,9 +66,9 @@ router.post('/', isAuthenticated, async (req, res) => {
     const grocery = new Grocery({
       userId: user._id,
       name,
-      quantity,
+      quantity: Number(quantity),
       category,
-      price: parseFloat(price)  // ensure price is a number
+      price: Number(price)
     });
 
     await grocery.save();
@@ -80,8 +88,9 @@ router.put('/edit/:id', isAuthenticated, async (req, res) => {
       return res.status(400).json({ message: 'Invalid category selected' });
     }
 
-    const updateData = { name, quantity, category };
-    if (price !== undefined) updateData.price = parseFloat(price);
+    const updateData = { name, category };
+    if (quantity !== undefined) updateData.quantity = Number(quantity);
+    if (price !== undefined) updateData.price = Number(price);
 
     const grocery = await Grocery.findOneAndUpdate(
       { _id: req.params.id, userId: req.session.user._id },
