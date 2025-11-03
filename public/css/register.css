@@ -1,0 +1,119 @@
+/* === Reset / Base Styles === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #74ebd5, #acb6e5);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* === Form Container === */
+.form-container {
+  background: #ffffffcc; /* semi-transparent white */
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* === Heading === */
+.form-container h1 {
+  margin-bottom: 25px;
+  font-size: 28px;
+  color: #333;
+  letter-spacing: 1px;
+}
+
+/* === Input Groups === */
+.input-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.input-group input {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #74ebd5;
+  outline: none;
+  box-shadow: 0 0 5px #74ebd5;
+}
+
+/* === Error Messages === */
+.error-message {
+  color: #d93025;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Error summary at top */
+.error-summary {
+  background-color: #fdecea;
+  color: #d93025;
+  border: 1px solid #f5c2c0;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  list-style: none;
+}
+
+/* === Submit Button === */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background: #74ebd5;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background: #67d4c7;
+}
+
+/* === Paragraph Links === */
+.form-container p {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.form-container p a {
+  color: #74ebd5;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 5px;
+  transition: color 0.3s ease;
+}
+
+.form-container p a:hover {
+  color: #67d4c7;
+}
+
+/* === Responsive === */
+@media (max-width: 480px) {
+  .form-container {
+    padding: 30px 20px;
+  }
+}

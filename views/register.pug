@@ -1,20 +1,50 @@
 doctype html
 html
   head
-    meta(charset='utf-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1')
-    title Register — My Grocery Buddy
-    link(rel='stylesheet' href='/css/style.css')
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Register — Grocery Buddy
+    link(rel='stylesheet', href='/css/register.css')
   body
-    // Register Page
-    form#registerPage.center(method='POST' action='/api/auth/register')
-      .card
-        h2 Create Account
-        input#regUsername(type='text' name='username' placeholder='Username' required)
-        input#regEmail(type='email' name='email' placeholder='Email' required)
-        input#regPassword(type='password' name='password' placeholder='Password' required)
-        input#regConfirmPassword(type='password' name='confirmPassword' placeholder='Confirm Password' required)
-        button#registerBtn(type='submit') Register
-        p
-          | Already have an account?
-          a#showLogin(href='/login') Login
+    - const safeErrors = errors || {}
+    - const safeFormData = formData || {}
+
+    .form-container
+      h1 Register
+
+      form(action="/api/auth/register" method="POST")
+        .input-group
+          input(
+            type="text"
+            name="username"
+            placeholder="Username"
+            value=safeFormData.username
+          )
+          if safeErrors.username
+            span.error-message #{safeErrors.username}
+
+        .input-group
+          input(
+            type="email"
+            name="email"
+            placeholder="Email"
+            value=safeFormData.email
+          )
+          if safeErrors.email
+            span.error-message #{safeErrors.email}
+
+        .input-group
+          input(type="password" name="password" placeholder="Password")
+          if safeErrors.password
+            span.error-message #{safeErrors.password}
+
+        .input-group
+          input(type="password" name="confirmPassword" placeholder="Confirm Password")
+          if safeErrors.confirmPassword
+            span.error-message #{safeErrors.confirmPassword}
+
+        button(type="submit") Register
+
+      p
+        | Already have an account?
+        a(href="/login") Login

@@ -6,13 +6,35 @@ html
     title Login — My Grocery Buddy
     link(rel='stylesheet' href='/css/style.css')
   body
-    // Login Page
-    form#loginPage.center(method='POST' action='/api/auth/login')
+    form#loginPage.center(action='/api/auth/login'  method="POST")
       .card
         h2 🛒 Grocery List
-        input#loginUsername(type='text' name='username' placeholder='Username or Email' required)
-        input#loginPassword(type='password' name='password' placeholder='Password' required)
+
+        // General error at top
+        if errors && errors.general
+          p.error-message #{errors.general}
+
+        // Username / Email
+        input#loginUsername(
+          type='text'
+          name='username'
+          placeholder='Username or Email'
+          value=(formData && formData.username ? formData.username : '')
+        )
+        if errors && errors.username
+          p.error-message #{errors.username}
+
+        // Password
+        input#loginPassword(
+          type='password'
+          name='password'
+          placeholder='Password'
+        )
+        if errors && errors.password
+          p.error-message #{errors.password}
+
         button#loginBtn(type='submit') Login
+
         p
           | Don’t have an account?
           a#showRegister(href='/register') Register
