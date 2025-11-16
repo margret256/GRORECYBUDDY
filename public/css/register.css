@@ -7,23 +7,12 @@
 }
 
 body {
-  background: linear-gradient(135deg, #74ebd5, #acb6e5);
+background-image: url(/public/images/3f7e6c8be47f0de47486eaa85a24275f.jpg);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-}
-
-/* === Form Container === */
-.form-container {
-  background: #ffffffcc; /* semi-transparent white */
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
 }
 
 /* === Heading === */
@@ -33,52 +22,62 @@ body {
   color: #333;
   letter-spacing: 1px;
 }
+.form-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
 
-/* === Input Groups === */
 .input-group {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
+  margin-bottom: 15px;
+  position: relative;
 }
 
 .input-group input {
-  padding: 12px 15px;
+  width: 100%;
+  padding: 10px;
+  padding-right: 40px;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: all 0.3s ease;
+  border-radius: 4px;
 }
 
-.input-group input:focus {
-  border-color: #74ebd5;
-  outline: none;
-  box-shadow: 0 0 5px #74ebd5;
+.input-group.password-group button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #555;
 }
 
-/* === Error Messages === */
 .error-message {
-  color: #d93025;
-  font-size: 14px;
-  margin-top: 5px;
+  color: #ff4d4f;
+  font-size: 0.9em;
+  margin-top: 4px;
+  display: block;
 }
 
-/* Error summary at top */
-.error-summary {
-  background-color: #fdecea;
-  color: #d93025;
-  border: 1px solid #f5c2c0;
-  padding: 10px 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  list-style: none;
+.error-banner {
+  background-color: #ffefef;
+  color: #d8000c;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 /* === Submit Button === */
 button[type="submit"] {
   width: 100%;
   padding: 12px;
-  background: #74ebd5;
+  background: #0c5f52;
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -89,10 +88,10 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background: #67d4c7;
+  background: #09443c;
 }
 
-/* === Paragraph Links === */
+/*  Paragraph Links */
 .form-container p {
   margin-top: 20px;
   font-size: 14px;
@@ -100,7 +99,7 @@ button[type="submit"]:hover {
 }
 
 .form-container p a {
-  color: #74ebd5;
+  color: white;
   text-decoration: none;
   font-weight: 600;
   margin-left: 5px;
@@ -108,12 +107,41 @@ button[type="submit"]:hover {
 }
 
 .form-container p a:hover {
-  color: #67d4c7;
+  color: #f2f3f3;
 }
 
-/* === Responsive === */
+/*  Responsive  */
 @media (max-width: 480px) {
   .form-container {
     padding: 30px 20px;
   }
+}
+
+/* toggle.css */
+
+.password-group {
+  position: relative;
+}
+
+.password-group button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.password-group button:hover {
+  color: #000;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.95rem;
 }

@@ -97,7 +97,7 @@ router.put('/edit/:id', isAuthenticated, async (req, res) => {
   }
 });
 
-// Toggle "completed" status
+// Toggle completed status
 router.put('/toggle/:id', isAuthenticated, async (req, res) => {
   try {
     const grocery = await Grocery.findOne({ _id: req.params.id, userId: req.session.user._id });

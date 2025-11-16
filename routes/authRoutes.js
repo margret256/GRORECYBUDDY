@@ -1,118 +1,107 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
+const User = require('../models/userModel');
 
-// ======================= REGISTER ROUTE =======================
+// =========================
+//   GET LOGIN (SHOW PAGE)
+// =========================
+router.get('/login', (req, res) => {
+  const successMessage = req.session.successMessage;
+  req.session.successMessage = null; // clear message after showing
+
+  res.render('login', {
+    successMessage,
+    errors: {},
+    formData: {}
+  });
+});
+
+
+// =========================
+//        REGISTER POST
+// =========================
 router.post('/register', async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
-  const formData = { username, email, password, confirmPassword };
+  const formData = { username, email };
   const errors = {};
 
-  // === Manual Validations ===
-  if (!username || username.trim() === '') {
-    errors.username = 'Username is required';
-  } else if (username.length < 3) {
-    errors.username = 'Username must be at least 3 characters long';
-  }
+  // Backend validation
+  if (!username || username.trim().length < 3) errors.username = 'Username must be at least 3 characters';
+  if (!email || !/^\S+@\S+\.\S+$/.test(email)) errors.email = 'Invalid email';
+  if (!password || password.length < 6) errors.password = 'Password must be at least 6 characters';
+  if (password !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
 
-  if (!email || email.trim() === '') {
-    errors.email = 'Email is required';
-  } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-    errors.email = 'Please enter a valid email address';
-  }
-
-  if (!password) {
-    errors.password = 'Password is required';
-  } else if (password.length < 6) {
-    errors.password = 'Password must be at least 6 characters long';
-  }
-
-  if (!confirmPassword) {
-    errors.confirmPassword = 'Please confirm your password';
-  } else if (confirmPassword !== password) {
-    errors.confirmPassword = 'Passwords do not match';
-  }
-
-  // If any validation failed, re-render form
-  if (Object.keys(errors).length > 0) {
+  if (Object.keys(errors).length > 0)
     return res.status(400).render('register', { errors, formData });
-  }
 
   try {
-    // Check if user already exists
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      errors.username = 'Username or email already exists';
+      errors.general = 'Username or email already exists';
       return res.status(400).render('register', { errors, formData });
     }
 
-    // Hash password and save
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, email, password: hashedPassword });
+    const newUser = new User({ username, email, password });
     await newUser.save();
 
+    // send success to login page
+    req.session.successMessage = 'Registration successful! Please log in.';
     res.redirect('/login');
+
   } catch (err) {
     console.error('Register Error:', err);
-    res.status(500).render('register', {
-      errors: { general: 'Server error during registration' },
-      formData,
-    });
+    errors.general = 'Server error during registration';
+    res.status(500).render('register', { errors, formData });
   }
 });
 
 
-// ======================= LOGIN ROUTE =======================
-router.post('/api/auth/login', async (req, res) => {
+// =========================
+//          LOGIN POST
+// =========================
+router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   const formData = { username };
   const errors = {};
 
-  // === Manual Validations ===
-  if (!username || username.trim() === '') {
-    errors.username = 'Username or Email is required';
-  } else if (username.length < 3) {
-    errors.username = 'Username must be at least 3 characters long';
-  }
+  if (!username || username.trim() === '') errors.username = 'Username or Email is required';
+  if (!password) errors.password = 'Password is required';
 
-  if (!password) {
-    errors.password = 'Password is required';
-  }
-
-  if (Object.keys(errors).length > 0) {
+  if (Object.keys(errors).length > 0)
     return res.status(400).render('login', { errors, formData });
-  }
 
   try {
-    // Find user by username or email
-    const user = await User.findOne({ $or: [{ username }, { email: username }] });
+    const cleanInput = username.trim();
+    const query = cleanInput.includes('@')
+      ? { email: cleanInput.toLowerCase() }
+      : { username: cleanInput };
+
+    const user = await User.findOne(query);
     if (!user) {
-      return res.status(400).render('login', {
-        errors: { general: 'Invalid username/email or password' },
-        formData,
-      });
+      errors.general = 'Invalid username/email or password';
+      return res.status(400).render('login', { errors, formData });
     }
 
-    // Compare password
+    // FIXED: missing password comparison
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).render('login', {
-        errors: { general: 'Invalid username/email or password' },
-        formData,
-      });
+      errors.general = 'Invalid username/email or password';
+      return res.status(400).render('login', { errors, formData });
     }
 
-    // Successful login
+    // store session user
     req.session.user = { _id: user._id, username: user.username, email: user.email };
+    req.session.successMessage = `Welcome back, ${user.username}! Login successful.`;
+
     res.redirect('/grocery');
+
   } catch (err) {
     console.error('Login Error:', err);
-    res.status(500).render('login', {
-      errors: { general: 'Server error during login' },
-      formData,
-    });
+    errors.general = 'Server error during login';
+    res.status(500).render('login', { errors, formData });
   }
 });
+
 
 module.exports = router;
