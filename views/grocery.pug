@@ -5,14 +5,16 @@ html
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     title Grocery List — My Grocery Buddy
     link(rel='stylesheet' href='/css/style.css')
+
   body
     header
       h1 🛒 My Grocery List
       nav
-        button.logout-btn(type='button' onclick='location.href="/logout"') Logout
+        button.logout-btn(type='button' onclick='location.href="/"') Logout
         label.theme-switch
           input#themeToggle(type='checkbox')
           span.slider
+        //- button.sidebar-toggle ☰
 
     .container
       .sidebar
@@ -53,7 +55,6 @@ html
             p#statIncompletePrice UGX 0.00
 
       main.main
-        // Add Form inside transparent container
         .add-form-container
           form#addForm.add-form(action="/groceries" method="post")
             input(name='name' placeholder='Item name' required='')
@@ -64,7 +65,7 @@ html
                 option(value=cat) #{cat}
             button(type='submit') Add
 
-        // Added Items
+
         .items-container
           h2 Your Added Items
           ul#itemsList
@@ -80,7 +81,6 @@ html
             else
               p.no-items No grocery items yet. Add some above!
 
-    // Edit Modal
     div#editModal.modal.hidden
       div.modal-content
         h3 Edit Grocery Item

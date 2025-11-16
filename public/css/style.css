@@ -242,6 +242,7 @@ main.main {
   align-self: flex-start;
   transition: all 0.3s ease;
   animation: bounceIn 1.4s ease-in-out;
+  
 }
 
 .add-form button:hover {
@@ -446,7 +447,7 @@ form#registerPage {
   background-color: #ffffff;
   padding: 2.8rem;
   border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
   width: 100%;
   max-width: 400px;
   display: flex;
@@ -531,4 +532,57 @@ body.dark-theme form button {
 
 body.dark-theme form button:hover {
   background-color: #388e3c;
+}
+
+/* Validation feedback */
+input.valid, select.valid {
+  border: 2px solid #28a745;
+  background-color: #eaffea;
+}
+
+input.invalid, select.invalid {
+  border: 2px solid #dc3545;
+  background-color: #ffe6e6;
+}
+
+/* Error message styling */
+.error-message {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 2px;
+  display: block;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Success toast styles */
+#successToast {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #28a745;
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  bottom: 30px;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.4s, bottom 0.4s;
+}
+
+/* Show animation */
+#successToast.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 50px;
 }

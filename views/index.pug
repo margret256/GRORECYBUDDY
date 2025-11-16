@@ -1,12 +1,19 @@
 doctype html
-head
-  meta(charset='utf-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1')
-  title My Grocery Buddy
-  link(rel='stylesheet' href='/css/style.css')
-main.center
-  h1 Welcome to My Grocery Buddy
-  p
-    a(href='/register') Register
-    |  &bull; 
-    a(href='/login') Login
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    title My Grocery Buddy
+    link(rel='stylesheet' href='/css/index.css')
+    
+  body
+    main.welcome-container
+      h1
+        | Welcome to 
+        span My Grocery Buddy
+
+      p.subtitle Your smart companion for easy grocery management
+
+      .btn-group
+        a.btn(href='/register') Register
+        a.btn.outline(href='/login') Login

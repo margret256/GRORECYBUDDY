@@ -1,3 +1,4 @@
+// connects html elements to js for interractions 
 const addForm = document.getElementById('addForm');
 const itemsList = document.getElementById('itemsList');
 const editModal = document.getElementById('editModal');
@@ -18,9 +19,7 @@ editForm.editQuantity = document.getElementById('editQuantity');
 editForm.editCategory = document.getElementById('editCategory');
 editForm.editPrice = document.getElementById('editPrice');
 
-// ======================
 // Load groceries
-// ======================
 async function loadGroceries(filter = 'all') {
   const res = await fetch(`/groceries?filter=${filter}`, { credentials: 'include' });
   const groceries = await res.json();
@@ -43,9 +42,8 @@ async function loadGroceries(filter = 'all') {
   updateStats(groceries);
 }
 
-// ======================
+
 // Add grocery
-// ======================
 addForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = Object.fromEntries(new FormData(addForm).entries());
@@ -69,9 +67,8 @@ addForm.addEventListener('submit', async (e) => {
   await loadGroceries(currentFilter);
 });
 
-// ======================
+
 // Edit, Delete, Complete
-// ======================
 itemsList.addEventListener('click', async (e) => {
   const li = e.target.closest('li');
   if (!li) return;
@@ -100,9 +97,8 @@ itemsList.addEventListener('click', async (e) => {
   }
 });
 
-// ======================
+
 // Save edited item
-// ======================
 editForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(editForm).entries());
@@ -123,9 +119,8 @@ cancelEdit.addEventListener('click', () => {
   editModal.classList.add('hidden');
 });
 
-// ======================
+
 // Filters
-// ======================
 filterButtons.forEach(btn => {
   btn.addEventListener('click', async () => {
     currentFilter = btn.dataset.filter;
@@ -135,9 +130,8 @@ filterButtons.forEach(btn => {
   });
 });
 
-// ======================
+
 // Statistics Calculation
-// ======================
 function updateStats(items) {
   const total = items.length;
   const completed = items.filter(i => i.completed);
@@ -155,9 +149,8 @@ function updateStats(items) {
   document.getElementById('statIncompletePrice').textContent = `UGX ${incompletePrice.toLocaleString()}`;
 }
 
-// ======================
+
 // Bulk actions
-// ======================
 clearCompletedBtn.addEventListener('click', async () => {
   const res = await fetch('/groceries?filter=completed', { credentials: 'include' });
   const completedItems = await res.json();
@@ -192,11 +185,5 @@ toggleSwitch.addEventListener('change', () => {
   }
 });
 
-
-
-
-
-// ======================
 // Load on start
-// ======================
 loadGroceries();

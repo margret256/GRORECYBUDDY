@@ -79,7 +79,7 @@ router.post('/', isAuthenticated, async (req, res) => {
   }
 });
 
-// Update (Edit) grocery details
+// Update or Edit grocery details
 router.put('/edit/:id', isAuthenticated, async (req, res) => {
   try {
     const { name, quantity, category, price } = req.body;
