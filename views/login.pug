@@ -14,12 +14,8 @@ html
     .form-container
       .header
         h1 🛒 Login
-
-      // SUCCESS MESSAGE (after registration)
       if successMessage
         .success-banner #{successMessage}
-
-      // ERROR MESSAGE
       if safeErrors.general
         .error-banner #{safeErrors.general}
 

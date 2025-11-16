@@ -3,9 +3,6 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
 
-// =========================
-//   GET LOGIN (SHOW PAGE)
-// =========================
 router.get('/login', (req, res) => {
   const successMessage = req.session.successMessage;
   req.session.successMessage = null; // clear message after showing
@@ -18,9 +15,7 @@ router.get('/login', (req, res) => {
 });
 
 
-// =========================
-//        REGISTER POST
-// =========================
+//  REGISTER POST
 router.post('/register', async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
   const formData = { username, email };
@@ -56,10 +51,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-
-// =========================
-//          LOGIN POST
-// =========================
+// LOGIN POST
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   const formData = { username };
