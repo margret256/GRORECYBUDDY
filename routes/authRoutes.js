@@ -3,9 +3,10 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
 
+// LOGIN PAGE (GET)
 router.get('/login', (req, res) => {
   const successMessage = req.session.successMessage;
-  req.session.successMessage = null; // clear message after showing
+  req.session.successMessage = null;
 
   res.render('login', {
     successMessage,
@@ -14,14 +15,12 @@ router.get('/login', (req, res) => {
   });
 });
 
-
-//  REGISTER POST
+// REGISTER POST
 router.post('/register', async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
   const formData = { username, email };
   const errors = {};
 
-  // Backend validation
   if (!username || username.trim().length < 3) errors.username = 'Username must be at least 3 characters';
   if (!email || !/^\S+@\S+\.\S+$/.test(email)) errors.email = 'Invalid email';
   if (!password || password.length < 6) errors.password = 'Password must be at least 6 characters';
@@ -40,7 +39,6 @@ router.post('/register', async (req, res) => {
     const newUser = new User({ username, email, password });
     await newUser.save();
 
-    // send success to login page
     req.session.successMessage = 'Registration successful! Please log in.';
     res.redirect('/login');
 
@@ -75,16 +73,17 @@ router.post('/login', async (req, res) => {
       return res.status(400).render('login', { errors, formData });
     }
 
-    // FIXED: missing password comparison
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       errors.general = 'Invalid username/email or password';
       return res.status(400).render('login', { errors, formData });
     }
 
-    // store session user
-    req.session.user = { _id: user._id, username: user.username, email: user.email };
-    req.session.successMessage = `Welcome back, ${user.username}! Login successful.`;
+    req.session.user = {
+      _id: user._id,
+      username: user.username,
+      email: user.email
+    };
 
     res.redirect('/grocery');
 
@@ -94,6 +93,5 @@ router.post('/login', async (req, res) => {
     res.status(500).render('login', { errors, formData });
   }
 });
-
 
 module.exports = router;

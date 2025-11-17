@@ -8,44 +8,41 @@ html
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
 
   body
-    - const safeErrors = errors || {}
-    - const safeFormData = formData || {}
+    .auth-container
+      form#loginPage(action="/login" method="POST")
 
-    .form-container
-      .header
-        h1 🛒 Login
-      if successMessage
-        .success-banner #{successMessage}
-      if safeErrors.general
-        .error-banner #{safeErrors.general}
+        h2 Login
 
-      form(action="/login" method="POST")
-        .input-group
-          input(
-            type="text"
-            name="username"
-            placeholder="Username or Email"
-            value=safeFormData.username || ''
-          )
-          if safeErrors.username
-            span.error-message #{safeErrors.username}
+        - const safeErrors = errors || {}
+        - const safeFormData = formData || {}
 
-        .input-group.password-group
-          input#password(
-            type="password"
-            name="password"
-            placeholder="Password"
-          )
-          button#togglePassword(type="button")
-            i(class="fa-solid fa-eye")
+        if successMessage
+          .success-banner #{successMessage}
+
+        if safeErrors.general
+          .error-message #{safeErrors.general}
+
+        input(
+          type="text"
+          name="username"
+          placeholder="Username or Email"
+          value=safeFormData.username || ''
+        )
+        if safeErrors.username
+          span.error-message #{safeErrors.username}
+
+        .password-group
+          .password-wrapper
+            input#password(type="password" name="password" placeholder="Password")
+            button#togglePassword(type="button")
+              i(class="fa-solid fa-eye")
           if safeErrors.password
             span.error-message #{safeErrors.password}
 
         button(type="submit") Login
 
-      p.login-link
-        | Don't have an account?
-        a(href="/register") Register
+        p Don't have an account?
+          a(href="/register") Register
 
     script.
       document.addEventListener('DOMContentLoaded', function() {
@@ -55,12 +52,10 @@ html
           const icon = toggle.querySelector('i');
           if (input.type === "password") {
             input.type = "text";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
+            icon.classList.replace("fa-eye", "fa-eye-slash");
           } else {
             input.type = "password";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
+            icon.classList.replace("fa-eye-slash", "fa-eye");
           }
         }
         document.getElementById('togglePassword')

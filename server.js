@@ -10,13 +10,11 @@ const groceryRoutes = require('./routes/groceryRoutes');
 const app = express();
 
 
-// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// Session Setup
 app.use(
   session({
     secret: 'MARGRET NANYONGA',
@@ -26,7 +24,6 @@ app.use(
       mongoUrl: 'mongodb://127.0.0.1:27017/groceryBuddy',
       collectionName: 'sessions',
     }),
-    // 1 hour
     cookie: {
       maxAge: 1000 * 60 * 60, 
       httpOnly: true,
@@ -34,35 +31,43 @@ app.use(
   })
 );
 
-// Connect to MongoDB
+
 mongoose.connect('mongodb://127.0.0.1:27017/groceryBuddy')
   .then(() => console.log('MongoDB Connected'))
-  .catch((err) => console.error('MongoDB Connection Error:', err));
+  .catch(err => console.error('MongoDB Connection Error:', err));
 
-
-// View Engine 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
-// Routes
 
-//Auth Routes 
-app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
 
-//Grocery Routes 
+
 app.use('/groceries', groceryRoutes);
 
-
 app.get('/', (req, res) => res.render('index'));
-app.get('/login', (req, res) => res.render('login'));
-app.get('/register', (req, res) => res.render('register'));
 
-// Grocery Page
+app.get('/login', (req, res) => {
+  res.render('login', {
+    successMessage: req.session.successMessage || null,
+    errors: {},
+    formData: {}
+  });
+  req.session.successMessage = null;
+});
+
+app.get('/register', (req, res) => {
+  res.render('register', {
+    errors: {},
+    formData: {}
+  });
+});
+
 app.get('/grocery', isAuthenticated, (req, res) => {
   if (!req.session.user) {
     console.log('No user found in session');
@@ -71,7 +76,7 @@ app.get('/grocery', isAuthenticated, (req, res) => {
   res.render('grocery', { user: req.session.user });
 });
 
-// Logout Shortcut
+
 app.get('/logout', (req, res) => {
   req.session.destroy(() => {
     res.clearCookie('connect.sid');
@@ -79,7 +84,16 @@ app.get('/logout', (req, res) => {
   });
 });
 
+app.post('/login', (req, res, next) => {
+  req.url = '/login'; 
+  authRoutes.handle(req, res, next);
+});
 
-// Start Server
+app.post('/register', (req, res, next) => {
+  req.url = '/register'; 
+  authRoutes.handle(req, res, next);
+});
+
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
