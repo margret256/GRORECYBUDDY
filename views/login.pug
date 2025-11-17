@@ -1,17 +1,68 @@
 doctype html
 html
   head
-    meta(charset='utf-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1')
-    title Login — My Grocery Buddy
-    link(rel='stylesheet' href='/css/style.css')
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Login — Grocery Buddy
+    link(rel='stylesheet', href='/css/style.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
+
   body
-    .auth-container
-      form#loginPage(method='POST' action='/api/auth/login')
-        h2 🛒 Grocery List
-        input#loginUsername(type='text' name='username' placeholder='Username or Email' required)
-        input#loginPassword(type='password' name='password' placeholder='Password' required)
-        button#loginBtn(type='submit') Login
-        p
-          | Don’t have an account?
-          a(href='/register') Register
+    - const safeErrors = errors || {}
+    - const safeFormData = formData || {}
+
+    .form-container
+      .header
+        h1 🛒 Login
+      if successMessage
+        .success-banner #{successMessage}
+      if safeErrors.general
+        .error-banner #{safeErrors.general}
+
+      form(action="/login" method="POST")
+        .input-group
+          input(
+            type="text"
+            name="username"
+            placeholder="Username or Email"
+            value=safeFormData.username || ''
+          )
+          if safeErrors.username
+            span.error-message #{safeErrors.username}
+
+        .input-group.password-group
+          input#password(
+            type="password"
+            name="password"
+            placeholder="Password"
+          )
+          button#togglePassword(type="button")
+            i(class="fa-solid fa-eye")
+          if safeErrors.password
+            span.error-message #{safeErrors.password}
+
+        button(type="submit") Login
+
+      p.login-link
+        | Don't have an account?
+        a(href="/register") Register
+
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        function togglePassword(id, toggleId) {
+          const input = document.getElementById(id);
+          const toggle = document.getElementById(toggleId);
+          const icon = toggle.querySelector('i');
+          if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+          } else {
+            input.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+          }
+        }
+        document.getElementById('togglePassword')
+          .addEventListener('click', () => togglePassword('password', 'togglePassword'));
+      });

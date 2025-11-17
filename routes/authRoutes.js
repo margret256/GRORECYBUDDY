@@ -1,74 +1,99 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
 
-// REGISTER ROUTE
+router.get('/login', (req, res) => {
+  const successMessage = req.session.successMessage;
+  req.session.successMessage = null; // clear message after showing
+
+  res.render('login', {
+    successMessage,
+    errors: {},
+    formData: {}
+  });
+});
+
+
+//  REGISTER POST
 router.post('/register', async (req, res) => {
+  const { username, email, password, confirmPassword } = req.body;
+  const formData = { username, email };
+  const errors = {};
+
+  // Backend validation
+  if (!username || username.trim().length < 3) errors.username = 'Username must be at least 3 characters';
+  if (!email || !/^\S+@\S+\.\S+$/.test(email)) errors.email = 'Invalid email';
+  if (!password || password.length < 6) errors.password = 'Password must be at least 6 characters';
+  if (password !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
+
+  if (Object.keys(errors).length > 0)
+    return res.status(400).render('register', { errors, formData });
+
   try {
-    const { username, email, password, confirmPassword } = req.body;
-
-    if (!username || !email || !password || !confirmPassword) {
-      return res.status(400).send('All fields are required.');
-    }
-
-    if (password !== confirmPassword) {
-      return res.status(400).send('Passwords do not match.');
-    }
-
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      return res.status(400).send('Username or email already exists.');
+      errors.general = 'Username or email already exists';
+      return res.status(400).render('register', { errors, formData });
     }
 
     const newUser = new User({ username, email, password });
     await newUser.save();
 
-    // Redirect to login page after successful registration
+    // send success to login page
+    req.session.successMessage = 'Registration successful! Please log in.';
     res.redirect('/login');
+
   } catch (err) {
     console.error('Register Error:', err);
-    res.status(500).send('Server error during registration');
+    errors.general = 'Server error during registration';
+    res.status(500).render('register', { errors, formData });
   }
 });
 
-// LOGIN ROUTE
+// LOGIN POST
 router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const formData = { username };
+  const errors = {};
+
+  if (!username || username.trim() === '') errors.username = 'Username or Email is required';
+  if (!password) errors.password = 'Password is required';
+
+  if (Object.keys(errors).length > 0)
+    return res.status(400).render('login', { errors, formData });
+
   try {
-    const { username, email, password } = req.body;
+    const cleanInput = username.trim();
+    const query = cleanInput.includes('@')
+      ? { email: cleanInput.toLowerCase() }
+      : { username: cleanInput };
 
-    if ((!username && !email) || !password) {
-      return res.status(400).send('Username/email and password are required.');
-    }
-
-    const user = await User.findOne({ $or: [{ username }, { email }] });
+    const user = await User.findOne(query);
     if (!user) {
-      return res.status(400).send('Invalid username/email or password.');
+      errors.general = 'Invalid username/email or password';
+      return res.status(400).render('login', { errors, formData });
     }
 
-    const isMatch = await user.matchPassword(password);
+    // FIXED: missing password comparison
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).send('Invalid username/email or password.');
+      errors.general = 'Invalid username/email or password';
+      return res.status(400).render('login', { errors, formData });
     }
-    req.session.user = { _id: user._id, username: user.username, email: user.email };
 
-    // Redirect to grocery page after successful login
+    // store session user
+    req.session.user = { _id: user._id, username: user.username, email: user.email };
+    req.session.successMessage = `Welcome back, ${user.username}! Login successful.`;
+
     res.redirect('/grocery');
+
   } catch (err) {
     console.error('Login Error:', err);
-    res.status(500).send('Server error during login');
+    errors.general = 'Server error during login';
+    res.status(500).render('login', { errors, formData });
   }
 });
 
-
-// LOGOUT ROUTE
-router.post('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ message: 'Logout failed.' });
-    }
-    res.clearCookie('connect.sid');
-    res.json({ message: 'Logged out successfully.' });
-  });
-});
 
 module.exports = router;
