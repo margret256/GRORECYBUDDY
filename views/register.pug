@@ -1,72 +1,20 @@
 doctype html
 html
   head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title Register — Grocery Buddy
-    link(rel='stylesheet', href='/css/register.css')
-    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
-
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    title Register — My Grocery Buddy
+    link(rel='stylesheet' href='/css/style.css')
   body
-    - const safeErrors = errors || {}
-    - const safeFormData = formData || {}
-
-    .form-container
-      .header
-        h1 🛒 Register
-
-      if safeErrors.general
-        .error-banner #{safeErrors.general}
-
-      form(action="/register" method="POST")
-        .input-group
-          input(type="text" name="username" placeholder="Username" value=safeFormData.username || '')
-          if safeErrors.username
-            span.error-message #{safeErrors.username}
-
-        .input-group
-          input(type="email" name="email" placeholder="Email" value=safeFormData.email || '')
-          if safeErrors.email
-            span.error-message #{safeErrors.email}
-
-        .input-group.password-group
-          input#password(type="password" name="password" placeholder="Password")
-          button#togglePassword(type="button")
-            i(class="fa-solid fa-eye")
-          if safeErrors.password
-            span.error-message #{safeErrors.password}
-
-        .input-group.password-group
-          input#confirmPassword(type="password" name="confirmPassword" placeholder="Confirm Password")
-          button#toggleConfirmPassword(type="button")
-            i(class="fa-solid fa-eye")
-          if safeErrors.confirmPassword
-            span.error-message #{safeErrors.confirmPassword}
-
-        button(type="submit") Register
-
-      p.login-link
-        | Already have an account  
-        a(href="/login") Login
-
-    script.
-      document.addEventListener('DOMContentLoaded', function() {
-        function togglePassword(id, toggleId) {
-          const input = document.getElementById(id);
-          const toggle = document.getElementById(toggleId);
-          const icon = toggle.querySelector('i');
-          if (input.type === "password") {
-            input.type = "text";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
-          } else {
-            input.type = "password";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
-          }
-        }
-        document.getElementById('togglePassword')
-          .addEventListener('click', () => togglePassword('password', 'togglePassword'));
-        document.getElementById('toggleConfirmPassword')
-          .addEventListener('click', () => togglePassword('confirmPassword', 'toggleConfirmPassword'));
-      });
+    // Register Page
+    form#registerPage.center(method='POST' action='/api/auth/register')
+      .card
+        h2 Create Account
+        input#regUsername(type='text' name='username' placeholder='Username' required)
+        input#regEmail(type='email' name='email' placeholder='Email' required)
+        input#regPassword(type='password' name='password' placeholder='Password' required)
+        input#regConfirmPassword(type='password' name='confirmPassword' placeholder='Confirm Password' required)
+        button#registerBtn(type='submit') Register
+        p
+          | Already have an account?
+          a#showLogin(href='/login') Login

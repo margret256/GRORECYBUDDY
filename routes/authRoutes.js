@@ -3,34 +3,19 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
 
-router.get('/login', (req, res) => {
-  const successMessage = req.session.successMessage;
-  req.session.successMessage = null; // clear message after showing
-
-  res.render('login', {
-    successMessage,
-    errors: {},
-    formData: {}
-  });
-});
-
-
-//  REGISTER POST
+// REGISTER ROUTE
 router.post('/register', async (req, res) => {
-  const { username, email, password, confirmPassword } = req.body;
-  const formData = { username, email };
-  const errors = {};
-
-  // Backend validation
-  if (!username || username.trim().length < 3) errors.username = 'Username must be at least 3 characters';
-  if (!email || !/^\S+@\S+\.\S+$/.test(email)) errors.email = 'Invalid email';
-  if (!password || password.length < 6) errors.password = 'Password must be at least 6 characters';
-  if (password !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
-
-  if (Object.keys(errors).length > 0)
-    return res.status(400).render('register', { errors, formData });
-
   try {
+    const { username, email, password, confirmPassword } = req.body;
+
+    if (!username || !email || !password || !confirmPassword) {
+      return res.status(400).send('All fields are required.');
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).send('Passwords do not match.');
+    }
+
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
       errors.general = 'Username or email already exists';
@@ -40,8 +25,7 @@ router.post('/register', async (req, res) => {
     const newUser = new User({ username, email, password });
     await newUser.save();
 
-    // send success to login page
-    req.session.successMessage = 'Registration successful! Please log in.';
+    // Redirect to login page after successful registration
     res.redirect('/login');
 
   } catch (err) {
@@ -75,17 +59,14 @@ router.post('/login', async (req, res) => {
       return res.status(400).render('login', { errors, formData });
     }
 
-    // FIXED: missing password comparison
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       errors.general = 'Invalid username/email or password';
       return res.status(400).render('login', { errors, formData });
     }
-
-    // store session user
     req.session.user = { _id: user._id, username: user.username, email: user.email };
-    req.session.successMessage = `Welcome back, ${user.username}! Login successful.`;
 
+    // Redirect to grocery page after successful login
     res.redirect('/grocery');
 
   } catch (err) {
