@@ -1,19 +1,43 @@
 doctype html
-html
-  head
-    meta(charset='utf-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1')
-    title My Grocery Buddy
-    link(rel='stylesheet' href='/css/index.css')
-    
-  body
-    main.welcome-container
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title My Grocery Buddy
+  // CSS
+  link(rel='stylesheet' href='/css/index.css')
+  // Font Awesome for icons
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
+main.welcome-container
+  // Hero Section
+  section.hero
+    .hero-text
       h1
         | Welcome to 
         span My Grocery Buddy
-
       p.subtitle Your smart companion for easy grocery management
-
       .btn-group
         a.btn(href='/register') Register
         a.btn.outline(href='/login') Login
+    .hero-image
+      img(src='/images/shop.jpg' alt='Grocery App Illustration')
+  // How It Works Section
+  section.how-it-works
+    h2 How It Works
+    .how-it-works-content
+      .how-text
+        p Track your groceries effortlessly with our simple and intuitive interface.
+        ul
+          li
+            i.fa-solid.fa-plus-circle
+            |  Add items to your grocery list quickly
+          li
+            i.fa-solid.fa-check-circle
+            |  Check items off as you shop
+          li
+            i.fa-solid.fa-box
+            |  Manage your pantry efficiently
+          li
+            i.fa-solid.fa-clock
+            |  Save time and reduce food waste
+      .how-image
+        img(src='/images/shop 2.jpg' alt='Step-by-step grocery management')

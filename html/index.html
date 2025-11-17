@@ -1,20 +1,49 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Grocery Buddy</title>
+  <!-- CSS -->
   <link rel="stylesheet" href="/public/css/index.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <main class="welcome-container">
-    <h1>Welcome to <span>My Grocery Buddy</span></h1>
-    <p class="subtitle">Your smart companion for easy grocery management</p>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Welcome to <span>My Grocery Buddy</span></h1>
+        <p class="subtitle">Your smart companion for easy grocery management</p>
+        <div class="btn-group">
+          <a href="/register" class="btn">Register</a>
+          <a href="/login" class="btn outline">Login</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="../public/images/shop.jpg" alt="Grocery App Illustration">
+      </div>
+    </section>
 
-    <div class="btn-group">
-      <a class="btn" href="/register">Register</a>
-      <a class="btn outline" href="/login">Login</a>
-    </div>
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+      <h2>How It Works</h2>
+      <div class="how-it-works-content">
+        <div class="how-text">
+          <p>Track your groceries effortlessly with our simple and intuitive interface.</p>
+          <ul>
+            <li><i class="fa-solid fa-plus-circle"></i> Add items to your grocery list quickly</li>
+            <li><i class="fa-solid fa-check-circle"></i> Check items off as you shop</li>
+            <li><i class="fa-solid fa-box"></i> Manage your pantry efficiently</li>
+            <li><i class="fa-solid fa-clock"></i> Save time and reduce food waste</li>
+          </ul>
+        </div>
+        <div class="how-image">
+          <img src="../public/images/shop 2.jpg" alt="Step-by-step grocery management">
+        </div>
+      </div>
+    </section>
   </main>
 </body>
 </html>
