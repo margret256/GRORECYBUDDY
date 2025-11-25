@@ -4,46 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Grocery Buddy</title>
-  <!-- CSS -->
-  <link rel="stylesheet" href="/public/css/index.css">
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../public/css/index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
 </head>
 <body>
-  <main class="welcome-container">
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-text">
-        <h1>Welcome to <span>My Grocery Buddy</span></h1>
-        <p class="subtitle">Your smart companion for easy grocery management</p>
-        <div class="btn-group">
-          <a href="/register" class="btn">Register</a>
-          <a href="/login" class="btn outline">Login</a>
-        </div>
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Make Grocery Shopping <span>Simple</span></h1>
+      <p>Organize your groceries, track your pantry, save time and shop smarter.</p>
+      <div class="btn-group">
+        <a href="/register" class="btn">Register</a>
+        <a href="/login" class="btn outline">Login</a>
       </div>
-      <div class="hero-image">
-        <img src="../public/images/shop.jpg" alt="Grocery App Illustration">
-      </div>
-    </section>
+    </div>
+    <div class="hero-image">
+      <img src="../public/images/shop.jpg" />
+      <img src="../public/images/shop.jpg" />
+    </div>
+  </section>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works">
-      <h2>How It Works</h2>
-      <div class="how-it-works-content">
-        <div class="how-text">
-          <p>Track your groceries effortlessly with our simple and intuitive interface.</p>
-          <ul>
-            <li><i class="fa-solid fa-plus-circle"></i> Add items to your grocery list quickly</li>
-            <li><i class="fa-solid fa-check-circle"></i> Check items off as you shop</li>
-            <li><i class="fa-solid fa-box"></i> Manage your pantry efficiently</li>
-            <li><i class="fa-solid fa-clock"></i> Save time and reduce food waste</li>
-          </ul>
-        </div>
-        <div class="how-image">
-          <img src="../public/images/shop 2.jpg" alt="Step-by-step grocery management">
-        </div>
+  <!-- FEATURES -->
+  <h2 class="section-title" id="features">What You Can Do</h2>
+  <div class="cards-container">
+    <div class="card">
+      <i class="fa-solid fa-plus-circle"></i>
+      <h3>Add Items</h3>
+      <p>Add new grocery items instantly and keep your list clean.</p>
+    </div>
+
+    <div class="card">
+      <i class="fa-solid fa-check-circle"></i>
+      <h3>Track While Shopping</h3>
+      <p>Check off items in real time as you shop.</p>
+    </div>
+
+    <div class="card">
+      <i class="fa-solid fa-box"></i>
+      <h3>Manage Pantry</h3>
+      <p>Avoid duplicates and check what you already have at home.</p>
+    </div>
+
+    <div class="card">
+      <i class="fa-solid fa-clock"></i>
+      <h3>Save Time</h3>
+      <p>Reduce waste and improve planning.</p>
+    </div>
+  </div>
+
+  <!-- DIRECTIONS -->
+  <section class="directions" id="start">
+    <h2>How To Get Started</h2>
+
+    <div class="steps">
+      <div class="step">
+        <i class="fa-solid fa-user-plus"></i>
+        <p>1. Create your account by clicking Register.</p>
       </div>
-    </section>
-  </main>
+
+      <div class="step">
+        <i class="fa-solid fa-right-to-bracket"></i>
+        <p>2. Login using your email and password.</p>
+      </div>
+
+      <div class="step">
+        <i class="fa-solid fa-list"></i>
+        <p>3. Add items to your grocery list.</p>
+      </div>
+
+      <div class="step">
+        <i class="fa-solid fa-mobile-screen"></i>
+        <p>4. Shop smart: track items, manage your pantry and save time.</p>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <p style="color:#27ae60">© 2025 From MARGRET AND TRUST My Grocery Buddy — Smart Grocery Management</p>
+</footer>
+
 </body>
 </html>

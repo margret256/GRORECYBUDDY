@@ -88,7 +88,7 @@ router.put('/edit/:id', isAuthenticated, async (req, res) => {
       return res.status(400).json({ message: 'Invalid category selected' });
     }
 
-    const updateData = { name, category };
+     const updateData = { name, category };
     if (quantity !== undefined) updateData.quantity = Number(quantity);
     if (price !== undefined) updateData.price = Number(price);
 

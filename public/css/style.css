@@ -36,21 +36,6 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark Theme */
-body.dark-theme {
-  background-color: #1b1b1b;
-  color: #e0e0e0;
-}
-
-body.dark-theme header {
-  background-color: #121212;
-}
-
-body.dark-theme main.main {
-  background-color: #262626;
-  color: #e0e0e0;
-}
-
 /* Header */
 header {
   height: 80px;
@@ -248,28 +233,6 @@ main.main {
 
 .add-form button:hover {
   background-color: #2e7d32;
-  box-shadow: 0 0 10px #66bb6a;
-}
-
-/* Dark theme adjustments for Add form */
-body.dark-theme .add-form-container {
-  background-color: #333;
-}
-
-body.dark-theme .add-form input,
-body.dark-theme .add-form select {
-  background-color: #444;
-  color: #e0e0e0;
-  border: 1px solid #555;
-}
-
-body.dark-theme .add-form button {
-  background-color: #2e7d32;
-  color: white;
-}
-
-body.dark-theme .add-form button:hover {
-  background-color: #388e3c;
   box-shadow: 0 0 10px #66bb6a;
 }
 
@@ -510,31 +473,6 @@ form p a:hover {
   text-decoration: underline;
 }
 
-/* Dark theme support */
-body.dark-theme .auth-container {
-  background-color: #1b1b1b;
-}
-
-body.dark-theme form#loginPage,
-body.dark-theme form#registerPage {
-  background-color: #262626;
-  color: #e0e0e0;
-}
-
-body.dark-theme form input {
-  background-color: #333;
-  color: #e0e0e0;
-  border: 1px solid #555;
-}
-
-body.dark-theme form button {
-  background-color: #2e7d32;
-}
-
-body.dark-theme form button:hover {
-  background-color: #388e3c;
-}
-
 /* Validation feedback */
 input.valid, select.valid {
   border: 2px solid #28a745;
@@ -586,4 +524,135 @@ input.invalid, select.invalid {
   visibility: visible;
   opacity: 1;
   bottom: 50px;
+}
+
+
+/* PASSWORD FIELD ICON */
+.password-group {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding: 0.6rem 45px 0.6rem 0.6rem;
+  border: 2px solid #c8e6c9;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.password-wrapper input:focus {
+  border-color: #388e3c;
+  outline: none;
+}
+
+.password-wrapper button {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.15rem;
+  color: #1b5e20;
+  padding: 0;
+}
+
+.password-wrapper button i {
+  pointer-events: none;
+}
+
+/* Dark Theme – Green Dark Mode */
+body.dark-theme {
+  background-color: #0d1f0e; /* deep forest green */
+  color: #d4f8d4; /* soft green-white */
+}
+
+body.dark-theme header {
+  background-color: #143d18; /* darker green */
+}
+
+body.dark-theme main.main {
+  background-color: #1b2e1c; /* dark green container */
+  color: #d4f8d4;
+}
+
+body.dark-theme .sidebar {
+  background-color: #162a17;
+  box-shadow: 0 0 12px rgba(0,255,0,0.15);
+}
+
+body.dark-theme .sidebar h3 {
+  color: #7fff8e;
+  border-bottom: 2px solid #356b39;
+}
+
+body.dark-theme .sidebar button {
+  background-color: #1e4f22;
+  color: #e1ffe1;
+}
+
+body.dark-theme .sidebar button:hover {
+  background-color: #2e7d32;
+  box-shadow: 0 0 10px #66ff66;
+}
+
+/* Add Form Container */
+body.dark-theme .add-form-container {
+  background-color: #1a2d1b;
+}
+
+body.dark-theme .add-form input,
+body.dark-theme .add-form select {
+  background-color: #223b23;
+  color: #e0ffe0;
+  border: 1px solid #3d6b3f;
+}
+
+body.dark-theme .add-form button {
+  background-color: #2e7d32;
+  color: white;
+}
+
+body.dark-theme .add-form button:hover {
+  background-color: #388e3c;
+  box-shadow: 0 0 10px #66ff66;
+}
+
+/* Items List */
+body.dark-theme ul#itemsList li {
+  background-color: #1c331c;
+  color: #d1ffd1;
+}
+
+/* Login/Register */
+body.dark-theme .auth-container {
+  background-color: #0d1f0e;
+}
+
+body.dark-theme form#loginPage,
+body.dark-theme form#registerPage {
+  background-color: #1a2d1b;
+  color: #e0ffe0;
+}
+
+body.dark-theme form input {
+  background-color: #223b23;
+  color: #e0ffe0;
+  border: 1px solid #3d6b3f;
+}
+
+body.dark-theme form button {
+  background-color: #2e7d32;
+}
+
+body.dark-theme form button:hover {
+  background-color: #388e3c;
 }
