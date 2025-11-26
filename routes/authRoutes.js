@@ -1,24 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const User = require("../models/userModel");
+const bcrypt = require('bcrypt');
+const User = require('../models/userModel');
+
+// LOGIN PAGE (GET)
+router.get('/login', (req, res) => {
+  const successMessage = req.session.successMessage;
+  req.session.successMessage = null;
+
+  res.render('login', {
+    successMessage,
+    errors: {},
+    formData: {}
+  });
+});
 
 // REGISTER POST
-router.post("/register", async (req, res) => {
+router.post('/register', async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
   const formData = { username, email };
   const errors = {};
 
-  if (!username || username.trim().length < 3)
-    errors.username = "Username must be at least 3 characters";
-  if (!email || !/^\S+@\S+\.\S+$/.test(email)) errors.email = "Invalid email";
-  if (!password || password.length < 6)
-    errors.password = "Password must be at least 6 characters";
-  if (password !== confirmPassword)
-    errors.confirmPassword = "Passwords do not match";
+  if (!username || username.trim().length < 3) errors.username = 'Username must be at least 3 characters';
+  if (!email || !/^\S+@\S+\.\S+$/.test(email)) errors.email = 'Invalid email';
+  if (!password || password.length < 6) errors.password = 'Password must be at least 6 characters';
+  if (password !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
 
   if (Object.keys(errors).length > 0)
-    return res.status(400).render("register", { errors, formData });
+    return res.status(400).render('register', { errors, formData });
 
   try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
@@ -30,8 +39,9 @@ router.post("/register", async (req, res) => {
     const newUser = new User({ username, email, password });
     await newUser.save();
 
-    req.session.successMessage = "Registration successful! Please log in.";
-    res.redirect("/login");
+    req.session.successMessage = 'Registration successful! Please log in.';
+    res.redirect('/login');
+
   } catch (err) {
     console.error("Register Error:", err);
     errors.general = "Server error during registration";
@@ -75,7 +85,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).render("login", { errors, formData });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       errors.general = "Invalid username/email or password";
       return res.status(400).render("login", { errors, formData });
@@ -84,15 +94,17 @@ router.post("/login", async (req, res) => {
     req.session.user = {
       _id: user._id,
       username: user.username,
-      email: user.email,
+      email: user.email
     };
 
-    res.redirect("/grocery");
+    res.redirect('/grocery');
+
   } catch (err) {
     console.error("Login Error:", err);
     errors.general = "Server error during login";
     res.status(500).render("login", { errors, formData });
   }
 });
+
 
 module.exports = router;

@@ -1,90 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — Grocery Buddy</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  </head>
 
-  <body>
-    <div class="form-container">
-      <div class="header">
-        <h1>🛒 Login</h1>
-      </div>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login — My Grocery Buddy</title>
+ <link rel="stylesheet" href="/public/css/style.css">
+</head>
 
-      <!-- successMessage -->
-      <% if (typeof successMessage !== 'undefined' && successMessage) { %>
-        <div class="success-banner"><%= successMessage %></div>
-      <% } %>
-
-      <!-- general errors -->
-      <% const safeErrors = errors || {}; const safeFormData = formData || {}; %>
-
-      <% if (safeErrors.general) { %>
-        <div class="error-banner"><%= safeErrors.general %></div>
-      <% } %>
-
-      <form action="/login" method="POST">
-        <div class="input-group">
-          <input 
-            type="text" 
-            name="username" 
-            placeholder="Username or Email"
-            value="<%= safeFormData.username || '' %>"
-          >
-          <% if (safeErrors.username) { %>
-            <span class="error-message"><%= safeErrors.username %></span>
-          <% } %>
-        </div>
-
-        <div class="input-group password-group">
-          <input
-            id="password"
-            type="password"
-            name="password"
-            placeholder="Password"
-          >
-          <button id="togglePassword" type="button">
-            <i class="fa-solid fa-eye"></i>
-          </button>
-
-          <% if (safeErrors.password) { %>
-            <span class="error-message"><%= safeErrors.password %></span>
-          <% } %>
-        </div>
-
-        <button type="submit">Login</button>
-      </form>
-
-      <p class="login-link">
-        Don't have an account?
-        <a href="/register">Register</a>
-      </p>
+<body>
+     <!-- Login Page -->
+  <div id="loginPage" class="center">
+    <div class="card">
+      <h2>🛒 Grocery List</h2>
+      <input type="text" id="loginUsername" placeholder="Username" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button id="loginBtn">Login</button>
+      <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
     </div>
-
+  </div>
+    <!-- <script src="/js/auth.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        function togglePassword(id, toggleId) {
-          const input = document.getElementById(id);
-          const toggle = document.getElementById(toggleId);
-          const icon = toggle.querySelector('i');
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const body = Object.fromEntries(new FormData(e.target).entries());
+            const res = await fetch('/api/auth/login', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            const msg = document.getElementById('msg');
+            if (!res.ok) { msg.textContent = data.message || 'Login failed'; return; }
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            window.location.href = '/grocery.html';
+        });
+    </script> -->
+</body>
 
-          if (input.type === "password") {
-            input.type = "text";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
-          } else {
-            input.type = "password";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
-          }
-        }
-
-        document.getElementById('togglePassword')
-          .addEventListener('click', () => togglePassword('password', 'togglePassword'));
-      });
-    </script>
-  </body>
 </html>

@@ -1,69 +1,20 @@
 doctype html
 html
   head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title Register — Grocery Buddy
-    link(rel='stylesheet', href='/css/style.css')
-    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css')
-
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    title Register — My Grocery Buddy
+    link(rel='stylesheet' href='/css/style.css')
   body
-    .auth-container
-      form#registerPage(action="/register" method="POST")
-
-        h2 Register
-
-        - const safeErrors = errors || {}
-        - const safeFormData = formData || {}
-
-        if safeErrors.general
-          .error-message #{safeErrors.general}
-
-        input(type="text" name="username" placeholder="Username" value=safeFormData.username || '')
-        if safeErrors.username
-          span.error-message #{safeErrors.username}
-
-        input(type="email" name="email" placeholder="Email" value=safeFormData.email || '')
-        if safeErrors.email
-          span.error-message #{safeErrors.email}
-
-        .password-group
-          .password-wrapper
-            input#password(type="password" name="password" placeholder="Password")
-            button#togglePassword(type="button")
-              i(class="fa-solid fa-eye")
-          if safeErrors.password
-            span.error-message #{safeErrors.password}
-
-        .password-group
-          .password-wrapper
-            input#confirmPassword(type="password" name="confirmPassword" placeholder="Confirm Password")
-            button#toggleConfirmPassword(type="button")
-              i(class="fa-solid fa-eye")
-          if safeErrors.confirmPassword
-            span.error-message #{safeErrors.confirmPassword}
-
-        button(type="submit") Register
-
-        p Already have an account?
-          a(href="/login") Login
-
-    script.
-      document.addEventListener('DOMContentLoaded', function() {
-        function togglePassword(id, toggleId) {
-          const input = document.getElementById(id);
-          const toggle = document.getElementById(toggleId);
-          const icon = toggle.querySelector('i');
-          if (input.type === "password") {
-            input.type = "text";
-            icon.classList.replace("fa-eye", "fa-eye-slash");
-          } else {
-            input.type = "password";
-            icon.classList.replace("fa-eye-slash", "fa-eye");
-          }
-        }
-        document.getElementById('togglePassword')
-          .addEventListener('click', () => togglePassword('password', 'togglePassword'));
-        document.getElementById('toggleConfirmPassword')
-          .addEventListener('click', () => togglePassword('confirmPassword', 'toggleConfirmPassword'));
-      });
+    // Register Page
+    form#registerPage.center(method='POST' action='/api/auth/register')
+      .card
+        h2 Create Account
+        input#regUsername(type='text' name='username' placeholder='Username' required)
+        input#regEmail(type='email' name='email' placeholder='Email' required)
+        input#regPassword(type='password' name='password' placeholder='Password' required)
+        input#regConfirmPassword(type='password' name='confirmPassword' placeholder='Confirm Password' required)
+        button#registerBtn(type='submit') Register
+        p
+          | Already have an account?
+          a#showLogin(href='/login') Login
