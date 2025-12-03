@@ -60,7 +60,7 @@ router.post('/', isAuthenticated, async (req, res) => {
       name,
       quantity,
       category,
-      price: parseFloat(price)  // ensure price is a number
+      price: parseFloat(price)  
     });
 
     await grocery.save();

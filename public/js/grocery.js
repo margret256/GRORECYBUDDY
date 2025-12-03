@@ -13,7 +13,12 @@ let currentFilter = 'all';
 editForm.editName = document.getElementById('editName');
 editForm.editQuantity = document.getElementById('editQuantity');
 editForm.editCategory = document.getElementById('editCategory');
-editForm.editPrice = document.getElementById('editPrice'); // Price input
+editForm.editPrice = document.getElementById('editPrice');
+
+// FORMAT MONEY WITH COMMAS
+function formatMoney(amount) {
+  return amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
 // Load groceries
 async function loadGroceries(filter = 'all') {
@@ -27,7 +32,7 @@ async function loadGroceries(filter = 'all') {
     li.innerHTML = `
       <span class="item-name ${item.completed ? 'completed' : ''}">${item.name}</span>
       <span class="item-qty">(${item.quantity} ${item.category})</span>
-      <span class="item-price">Price: $${item.price.toFixed(2)}</span>
+      <span class="item-price">Price: SHS ${formatMoney(item.price)}</span>
       <button class="complete-btn">${item.completed ? 'Undo' : 'Complete'}</button>
       <button class="edit-btn">Edit</button>
       <button class="delete-btn">Delete</button>
@@ -84,11 +89,11 @@ itemsList.addEventListener('click', async (e) => {
     editItemId = id;
     const name = li.querySelector('.item-name').textContent.trim();
     const [qty, category] = li.querySelector('.item-qty').textContent.replace(/[()]/g, '').split(' ');
-    const priceText = li.querySelector('.item-price').textContent.replace('Price: $', '');
+    const priceText = li.querySelector('.item-price').textContent.replace('Price: SHS', '');
     editForm.editName.value = name;
     editForm.editQuantity.value = qty;
     editForm.editCategory.value = category;
-    editForm.editPrice.value = parseFloat(priceText);
+    editForm.editPrice.value = parseFloat(priceText.replace(/,/g, ''));
     editModal.classList.remove('hidden');
   }
 });
@@ -141,9 +146,9 @@ function updateStats(items) {
   document.getElementById('statTotal').textContent = totalCount;
   document.getElementById('statCompleted').textContent = completedCount;
   document.getElementById('statRemaining').textContent = remainingCount;
-  document.getElementById('statTotalPrice').textContent = `$${totalPrice.toFixed(2)}`;
-  document.getElementById('statCompletedPrice').textContent = `$${completedPrice.toFixed(2)}`;
-  document.getElementById('statRemainingPrice').textContent = `$${remainingPrice.toFixed(2)}`;
+  document.getElementById('statTotalPrice').textContent = `SHS ${formatMoney(totalPrice)}`;
+  document.getElementById('statCompletedPrice').textContent = `SHS ${formatMoney(completedPrice)}`;
+  document.getElementById('statRemainingPrice').textContent = `SHS ${formatMoney(remainingPrice)}`;
 }
 
 // Bulk actions

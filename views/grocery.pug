@@ -7,19 +7,24 @@ html
     link(rel='stylesheet' href='/css/style.css')
 
   body
-    // ✅ Success message banner
+    // Success message banner
     if successMessage
       .success-banner #{successMessage}
 
     header
       h1 🛒 My Grocery List
-      nav
-        a(href='/logout') Logout
+
+      // FIXED BUTTON ALIGNMENT (Logout + Theme side-by-side)
+      .header-actions(style="display:flex; align-items:center; gap:20px;")
+        
+        // Logout Button  **UPDATED REDIRECT**
+        form(action="/" method="GET" style="margin:0;")
+          button.logout-btn(type="submit") Logout
+
+        // Theme switch
         label.theme-switch
           input#themeToggle(type='checkbox')
           span.slider
-
-    button.sidebar-toggle Show Filters
 
     .container
       .sidebar
@@ -60,30 +65,36 @@ html
             p#statRemainingPrice Shs 0.00
 
       main.main
-        form#addForm.add-form(action="/groceries" method="post")
-          input(name='name' placeholder='Item name' required='')
-          input(name='quantity' type='number' placeholder='Quantity' min='1' value='')
-          input(name='price' type='number' step='0.01' min='0' placeholder='Price' required='')
-          select(name='category')
-            each cat in ['Produce','Dairy','Meat','Bakery','Pantry','Frozen','Beverages','Snacks','Other']
-              option(value=cat) #{cat}
-          button(type='submit') Add
+        // Add Form Card
+        .form-card-container(style="display:flex; justify-content:center; margin-bottom:2rem;")
+          .card.shadow-sm.p-3(style="width:380px;")
+            h5.text-center.mb-3 Add Grocery Item
+            form#addForm.add-form(action="/groceries" method="post")
+              input(name='name' placeholder='Item name' required='' style="width:100%; padding:0.5rem; font-size:0.9rem;")
+              input(name='quantity' type='number' placeholder='Quantity' min='1' value='' style="width:100%; padding:0.5rem; font-size:0.9rem;")
+              input(name='price' type='number' step='0.01' min='0' placeholder='Price' required='' style="width:100%; padding:0.5rem; font-size:0.9rem;")
+              select(name='category' style="width:100%; padding:0.5rem; font-size:0.9rem;")
+                each cat in ['Produce','Dairy','Meat','Bakery','Pantry','Frozen','Beverages','Snacks','Other']
+                  option(value=cat) #{cat}
+              button(type='submit' style="width:100%; padding:0.6rem; margin-top:0.5rem; font-size:0.95rem;") Add
 
+        // Grocery Items List
         ul#itemsList
           if groceries
             each item in groceries
               li(data-id=item._id)
                 span.item-name(class=item.completed ? 'completed' : '') #{item.name}
                 span.item-qty (#{item.quantity} #{item.category})
-                span.item-price $#{item.price.toFixed(2)}
-                span.item-total Total: $#{(item.price * item.quantity).toFixed(2)}
+                span.item-price SHS #{item.price.toFixed(2)}
+                span.item-total Total: SHS #{(item.price * item.quantity).toFixed(2)}
                 button.complete-btn #{item.completed ? 'Undo' : 'Complete'}
                 button.edit-btn Edit
                 button.delete-btn Delete
 
+    // Edit Modal
     div#editModal.modal.hidden
       div.modal-content
-        h3 Edit Grocery Item
+        h2 Edit Grocery Item
         form#editForm
           input#editName(type='text' name='name' placeholder='Item name' required='')
           input#editQuantity(type='number' name='quantity' min='1' value='')
